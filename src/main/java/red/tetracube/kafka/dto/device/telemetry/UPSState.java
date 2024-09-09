@@ -1,0 +1,18 @@
+package red.tetracube.kafka.dto.device.telemetry;
+
+public enum UPSState {
+    ONLINE,
+    ON_BATTERY,
+    LOW_BATTERY,
+    HIGH_BATTERY,
+    REPLACE_BATTERY,
+    BATTERY_CHARGING,
+    BATTERY_DISTCHARGING,
+    BYPASS,
+    UPS_CALIBRATING,
+    OFFLINE,
+    UPS_OVERLOAD,
+    INCOMING_TRIMING,
+    INCOMING_BOOST,
+    FORCED_SHUTDOWN
+}
