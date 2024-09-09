@@ -20,19 +20,19 @@ import red.tetracube.kafka.dto.device.telemetry.DeviceTelemetry;
 import red.tetracube.kafka.dto.device.telemetry.TelemetryInstanceValue;
 
 @ApplicationScoped
-@RunOnVirtualThread
 public class DeviceTelemetryHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceTelemetryHandler.class);
 
     @Incoming("device-telemetry")
+    @RunOnVirtualThread
     public void handleDeviceTelemetry(ConsumerRecord<String, DeviceTelemetry> deviceTelemetryRecord)
             throws IOException {
         if (deviceTelemetryRecord.value() == null) {
             LOG.warn("The message is emtpy, maybe for a deserialization problem. Ignoring the message");
             return;
         }
-        LOG.info("Recived device telemetry data from {}", deviceTelemetryRecord.key());
+        LOG.info("Received device telemetry data from {}", deviceTelemetryRecord.key());
         var savedTelemetry = mapTelemetryAsEntity(deviceTelemetryRecord.key(), deviceTelemetryRecord.value());
         LOG.info("Saved telemetry {}", savedTelemetry.eventMeta.telemetryName);
     }
