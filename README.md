@@ -1,10 +1,29 @@
-# iot-sense
+# IoT Sense
+
+## Overview
+
+Welcome to the IoT Data Collector and Streamer project! This open-source application is designed to facilitate the collection, storage, and real-time streaming of IoT data. It connects seamlessly with a Kafka message broker to receive data, stores it efficiently in a MongoDB database, and streams the collected data to mobile applications in real time.
+
+### Key Features
+
+* Data Ingestion via Kafka: The application consumes IoT data streams from a Kafka broker, allowing it to handle high-throughput, real-time data from various IoT devices.
+* Efficient Data Storage: Data is stored in a MongoDB database for persistence, ensuring that all collected information is safely stored for further analysis and retrieval.
+* Real-Time Data Streaming: The application streams data to connected mobile applications using real-time communication protocols, ensuring up-to-date information for users and devices.
+* Scalable Design: Built to handle high volumes of data and users, the application can easily scale to meet the growing needs of IoT environments.
+
+## Architecture
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
-## Running the application in dev mode
+1. Kafka Integration: This application subscribes to Kafka topics and consumes messages containing IoT data from various sources (sensors, devices, etc.).
+2. MongoDB Storage: Collected data is structured and stored in MongoDB, providing both scalability and flexibility in data storage.
+3. Mobile Application Streaming: Using WebSockets or other real-time protocols, the application delivers updates and notifications directly to connected mobile clients.
+
+## Getting Started
+
+### Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 
@@ -14,7 +33,7 @@ You can run your application in dev mode that enables live coding using:
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
-## Packaging and running the application
+### Packaging and running the application
 
 The application can be packaged using:
 
@@ -35,7 +54,7 @@ If you want to build an _über-jar_, execute the following command:
 
 The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
 
-## Creating a native executable
+### Creating a native executable
 
 You can create a native executable using:
 
@@ -53,30 +72,10 @@ You can then execute your native executable with: `./build/iot-sense-1.0.0-SNAPS
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
 
-## Related Guides
+## License
 
-- Mutiny ([guide](https://quarkus.io/guides/mutiny-primer)): Write reactive applications with the modern Reactive Programming library Mutiny
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- MongoDB client ([guide](https://quarkus.io/guides/mongodb)): Connect to MongoDB in either imperative or reactive style
-- Eclipse Vert.x ([guide](https://quarkus.io/guides/vertx)): Write reactive applications with the Vert.x API
-- MongoDB with Panache ([guide](https://quarkus.io/guides/mongodb-panache)): Simplify your persistence code for MongoDB via the active record or the repository pattern
-- WebSockets Next ([guide](https://quarkus.io/guides/websockets-next-reference)): Implementation of the WebSocket API with enhanced efficiency and usability
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
-- Apache Kafka Client ([guide](https://quarkus.io/guides/kafka)): Connect to Apache Kafka with its native API
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Messaging - Kafka Connector ([guide](https://quarkus.io/guides/kafka-getting-started)): Connect to Kafka with Reactive Messaging
+This project is licensed under the MIT License – see the [LICENSE](https://github.com/TetraKube-Red/iot-sense?tab=License-1-ov-file) file for details.
 
-## Provided Code
+## Contact
 
-### Messaging codestart
-
-Use Quarkus Messaging
-
-[Related Apache Kafka guide section...](https://quarkus.io/guides/kafka-reactive-getting-started)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+For more information or support, please reach out to the project maintainers at penguinet.it@gmail.com.
