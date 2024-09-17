@@ -1,15 +1,25 @@
 package red.tetracube.database.entities;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-import io.quarkus.mongodb.panache.PanacheMongoEntity;
+@Entity
+@Table(name = "rooms")
+public class Room extends PanacheEntity {
 
-public class Room extends PanacheMongoEntity {
-
-    @BsonProperty("slug")
+    @Column(name = "slug", nullable = false, unique = true)
     public String slug;
 
-    @BsonProperty("name")
+    @Column(name = "name", nullable = false)
     public String name;
+
+    @JoinColumn(name = "hub_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = Hub.class)
+    public Hub hub;
 
 }

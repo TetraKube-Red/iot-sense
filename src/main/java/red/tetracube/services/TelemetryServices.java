@@ -19,11 +19,11 @@ public class TelemetryServices {
 
     public List<DeviceTelemetry> getLatestDeviceTelemetry(String deviceSlug) {
         var device = Device.<Device>find("slug", deviceSlug).firstResultOptional();
-        if (device.isEmpty()) {
+        if (device.isEmpty()) { 
             LOGGER.warn("Cannot find any device called {} to retrieve it's telemetry", deviceSlug);
             return new ArrayList<>();
         }
-        return DeviceTelemetry.<DeviceTelemetry>list("event_meta.deviceReferenceId", Sort.by("event_time", Direction.Descending), device.get().id);
+        return DeviceTelemetry.<DeviceTelemetry>find("event_meta.device_reference_id", Sort.by("event_time", Direction.Descending), device.get().id).list();
     }
 
 }

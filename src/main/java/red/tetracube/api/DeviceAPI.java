@@ -10,10 +10,10 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import red.tetracube.api.dto.device.DeviceInfo;
+import red.tetracube.api.dto.device.DeviceInteraction;
 import red.tetracube.models.enumerations.DeviceType;
 import red.tetracube.services.DeviceServices;
 
@@ -31,13 +31,19 @@ public class DeviceAPI {
     @RunOnVirtualThread
     public List<DeviceInfo> getDevicesByType(@RestPath DeviceType deviceType) {
         return deviceServices.getDevicesByType(deviceType).stream()
-                .map(device -> {
+                .<DeviceInfo>map(device -> {
+                    var interactions = device.deviceInteractions.stream()
+                    .map(interaction -> {
+                        return new DeviceInteraction(interaction.interactionType, interaction.interactionClass);
+                    })
+                    .toList();
+                    var roomSlug = device.room == null ? null : device.room.slug;
                     return new DeviceInfo(
                             device.slug,
                             device.humanName,
-                            device.roomSlug,
+                            roomSlug,
                             device.deviceType,
-                            device.deviceCapabilities);
+                            interactions);
                 })
                 .toList();
     }

@@ -3,11 +3,6 @@ package red.tetracube.kafka.handlers;
 import java.io.IOException;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.bson.BsonBoolean;
-import org.bson.BsonDouble;
-import org.bson.BsonInt32;
-import org.bson.BsonInt64;
-import org.bson.BsonString;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.enterprise.context.ApplicationScoped;
 import red.tetracube.database.entities.Device;
-import red.tetracube.database.entities.EventMeta;
 import red.tetracube.kafka.dto.device.telemetry.DeviceTelemetry;
 import red.tetracube.kafka.dto.device.telemetry.TelemetryInstanceValue;
 
@@ -34,7 +28,7 @@ public class DeviceTelemetryHandler {
         }
         LOG.info("Received device telemetry data from {}", deviceTelemetryRecord.key());
         var savedTelemetry = mapTelemetryAsEntity(deviceTelemetryRecord.key(), deviceTelemetryRecord.value());
-        LOG.info("Saved telemetry {}", savedTelemetry.eventMeta.telemetryName);
+        LOG.info("Saved telemetry {}", savedTelemetry.telemetryName);
     }
 
     private red.tetracube.database.entities.DeviceTelemetry mapTelemetryAsEntity(String deviceName,
@@ -48,36 +42,35 @@ public class DeviceTelemetryHandler {
 
         var deviceTelemetryEntity = new red.tetracube.database.entities.DeviceTelemetry();
         deviceTelemetryEntity.eventTime = message.telemetryTimestamp();
-        deviceTelemetryEntity.eventMeta = new EventMeta();
-        deviceTelemetryEntity.eventMeta.deviceReferenceId = device.id;
-        deviceTelemetryEntity.eventMeta.telemetryName = message.telemetryName();
-        deviceTelemetryEntity.eventMeta.units = message.units();
-        deviceTelemetryEntity.eventMeta.unitsClass = message.unitsClass();
+        deviceTelemetryEntity.device = device;
+        deviceTelemetryEntity.telemetryName = message.telemetryName();
+        deviceTelemetryEntity.units = message.units();
+        deviceTelemetryEntity.unitsClass = message.unitsClass();
 
         if (message.value() instanceof TelemetryInstanceValue.StringValue) {
             var stringValue = ((TelemetryInstanceValue.StringValue) message.value()).stringValue();
-            deviceTelemetryEntity.value = new BsonString(stringValue);
+            deviceTelemetryEntity.stringValue = stringValue;
         } else if (message.value() instanceof TelemetryInstanceValue.IntValue) {
             var intValue = ((TelemetryInstanceValue.IntValue) message.value()).intValue();
-            deviceTelemetryEntity.value = new BsonInt32(intValue);
+            deviceTelemetryEntity.intValue = intValue;
         } else if (message.value() instanceof TelemetryInstanceValue.LongValue) {
             var longValue = ((TelemetryInstanceValue.LongValue) message.value()).longValue();
-            deviceTelemetryEntity.value = new BsonInt64(longValue);
+            deviceTelemetryEntity.longValue = longValue;
         } else if (message.value() instanceof TelemetryInstanceValue.DoubleValue) {
             var doubleValue = ((TelemetryInstanceValue.DoubleValue) message.value()).doubleValue();
-            deviceTelemetryEntity.value = new BsonDouble(doubleValue);
+            deviceTelemetryEntity.doubleValue = doubleValue;
         } else if (message.value() instanceof TelemetryInstanceValue.FloatValue) {
             var floatValue = ((TelemetryInstanceValue.FloatValue) message.value()).floatValue();
-            deviceTelemetryEntity.value = new BsonDouble(floatValue);
+            deviceTelemetryEntity.floatValue = floatValue;
         } else if (message.value() instanceof TelemetryInstanceValue.SwitchValue) {
             var switchValue = ((TelemetryInstanceValue.SwitchValue) message.value()).switchValue();
-            deviceTelemetryEntity.value = new BsonString(switchValue.name());
+            deviceTelemetryEntity.switchValue = switchValue;
         } else if (message.value() instanceof TelemetryInstanceValue.BoolValue) {
             var boolValue = ((TelemetryInstanceValue.BoolValue) message.value()).boolValue();
-            deviceTelemetryEntity.value = new BsonBoolean(boolValue);
+            deviceTelemetryEntity.boolValue = boolValue;
         } else if (message.value() instanceof TelemetryInstanceValue.UpsValue) {
             var upsValue = ((TelemetryInstanceValue.UpsValue) message.value()).upsValue();
-            deviceTelemetryEntity.value = new BsonString(upsValue.name());
+            deviceTelemetryEntity.upsValue = upsValue;
         }
 
         deviceTelemetryEntity.persist();

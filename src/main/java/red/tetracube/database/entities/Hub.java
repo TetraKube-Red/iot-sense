@@ -3,21 +3,24 @@ package red.tetracube.database.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-import io.quarkus.mongodb.panache.PanacheMongoEntity;
-import io.quarkus.mongodb.panache.common.MongoEntity;
+@Entity
+@Table(name = "hubs")
+public class Hub extends PanacheEntity{
 
-@MongoEntity(collection = "hubs")
-public class Hub extends PanacheMongoEntity{
-
-    @BsonProperty("slug")
+    @Column(name = "slug", nullable = false, unique = true)
     public String slug;
 
-    @BsonProperty("name")    
+    @Column(name = "name", nullable = false)    
     public String name;
 
-    @BsonProperty("rooms")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hub", targetEntity = Room.class)
     public List<Room> rooms = new ArrayList<>();
     
 }
