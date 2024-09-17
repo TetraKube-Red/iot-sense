@@ -1,4 +1,4 @@
-package red.tetracube.kafka.dto.device.telemetry;
+package red.tetracube.models.enumerations;
 
 public enum UPSState {
     ONLINE,
