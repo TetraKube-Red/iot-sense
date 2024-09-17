@@ -6,6 +6,8 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
+import red.tetracube.models.devices.DeviceActiveCapability;
+import red.tetracube.models.enumerations.DeviceType;
 
 @MongoEntity(collection = "devices")
 public class Device extends PanacheMongoEntity{
@@ -26,7 +28,7 @@ public class Device extends PanacheMongoEntity{
     public DeviceType deviceType;
 
     @BsonProperty("device_capabilities")
-    public List<DeviceCapabilities> deviceCapabilities;
+    public List<DeviceActiveCapability> deviceCapabilities;
 
     public static Device getByInternalName(String internalName) {
         return Device.<Device>find("internal_name", internalName)

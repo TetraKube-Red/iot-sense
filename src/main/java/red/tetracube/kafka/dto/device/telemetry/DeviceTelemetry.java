@@ -2,8 +2,8 @@ package red.tetracube.kafka.dto.device.telemetry;
 
 import java.time.LocalDateTime;
 
-import red.tetracube.enumerations.Units;
-import red.tetracube.enumerations.UnitsClass;
+import red.tetracube.models.enumerations.Units;
+import red.tetracube.models.enumerations.UnitsClass;
 
 public record DeviceTelemetry(
         LocalDateTime telemetryTimestamp,

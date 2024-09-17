@@ -1,4 +1,4 @@
-package red.tetracube.enumerations;
+package red.tetracube.models.enumerations;
 
 public enum Units {
     NONE,

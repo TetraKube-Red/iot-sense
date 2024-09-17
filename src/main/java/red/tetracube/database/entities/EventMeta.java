@@ -3,8 +3,8 @@ package red.tetracube.database.entities;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
-import red.tetracube.enumerations.Units;
-import red.tetracube.enumerations.UnitsClass;
+import red.tetracube.models.enumerations.Units;
+import red.tetracube.models.enumerations.UnitsClass;
 
 public class EventMeta {
 
