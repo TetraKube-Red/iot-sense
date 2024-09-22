@@ -39,7 +39,7 @@ public class Device extends PanacheEntity {
     public List<DeviceInteraction> deviceInteractions;
 
     public static Device getByInternalName(String internalName) {
-        return Device.<Device>find("internal_name", internalName)
+        return Device.<Device>find("internalName", internalName)
                 .firstResult();
     }
 
