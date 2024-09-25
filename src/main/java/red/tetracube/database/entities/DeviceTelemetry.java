@@ -3,6 +3,9 @@ package red.tetracube.database.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,10 +16,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import red.tetracube.models.enumerations.SwitchState;
-import red.tetracube.models.enumerations.UPSState;
-import red.tetracube.models.enumerations.Units;
-import red.tetracube.models.enumerations.UnitsClass;
+import red.tetracube.kafka.dto.device.telemetry.SwitchState;
+import red.tetracube.kafka.dto.device.telemetry.TelemetryInstanceValue;
+import red.tetracube.kafka.dto.device.telemetry.UPSState;
+import red.tetracube.kafka.dto.device.telemetry.Units;
+import red.tetracube.kafka.dto.device.telemetry.UnitsClass;
 
 @Entity
 @Table(name = "devices_telemetry")
@@ -67,5 +71,9 @@ public class DeviceTelemetry extends PanacheEntityBase {
 
     @Column(name = "ups_value")
     public UPSState upsValue;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "items", columnDefinition = "jsonb")
+    public TelemetryInstanceValue telemetryInstanceValue;
 
 }

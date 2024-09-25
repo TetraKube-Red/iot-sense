@@ -3,8 +3,8 @@ package red.tetracube.api.dto.telemetry;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import red.tetracube.models.enumerations.SwitchState;
-import red.tetracube.models.enumerations.UPSState;
+import red.tetracube.kafka.dto.device.telemetry.SwitchState;
+import red.tetracube.kafka.dto.device.telemetry.UPSState;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, // Include the type info in the JSON
         include = JsonTypeInfo.As.PROPERTY // Include as a wrapper object

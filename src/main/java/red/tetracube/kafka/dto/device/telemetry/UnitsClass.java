@@ -1,4 +1,4 @@
-package red.tetracube.models.enumerations;
+package red.tetracube.kafka.dto.device.telemetry;
 
 public enum UnitsClass {
     VOLTAGE,

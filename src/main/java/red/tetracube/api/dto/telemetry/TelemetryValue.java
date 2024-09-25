@@ -1,7 +1,7 @@
 package red.tetracube.api.dto.telemetry;
 
-import red.tetracube.models.enumerations.Units;
-import red.tetracube.models.enumerations.UnitsClass;
+import red.tetracube.kafka.dto.device.telemetry.Units;
+import red.tetracube.kafka.dto.device.telemetry.UnitsClass;
 
 public record TelemetryValue(
     String telemetryName,
