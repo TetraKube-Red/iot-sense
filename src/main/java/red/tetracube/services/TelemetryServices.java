@@ -1,29 +1,36 @@
 package red.tetracube.services;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.quarkus.panache.common.Sort;
 import io.quarkus.panache.common.Sort.Direction;
 import jakarta.enterprise.context.ApplicationScoped;
-import red.tetracube.database.entities.Device;
+import jakarta.ws.rs.NotFoundException;
 import red.tetracube.database.entities.DeviceTelemetry;
 
 @ApplicationScoped
 public class TelemetryServices {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(TelemetryServices.class);
-
     public List<DeviceTelemetry> getLatestDeviceTelemetry(String deviceSlug) {
-        var device = Device.<Device>find("slug", deviceSlug).firstResultOptional();
-        if (device.isEmpty()) { 
-            LOGGER.warn("Cannot find any device called {} to retrieve it's telemetry", deviceSlug);
-            return new ArrayList<>();
-        }
-        return DeviceTelemetry.<DeviceTelemetry>find("event_meta.device_reference_id", Sort.by("event_time", Direction.Descending), device.get().id).list();
+        var latestEventTime = DeviceTelemetry.<DeviceTelemetry>find(
+                "device.slug",
+                Sort.by("eventTime", Direction.Descending),
+                deviceSlug)
+                .firstResultOptional()
+                .orElseThrow(() -> new NotFoundException())
+                .eventTime;
+        var params = new HashMap<String, Object>() {
+            {
+                put("slug", deviceSlug);
+                put("eventTime", latestEventTime);
+            }
+        };
+        return DeviceTelemetry.<DeviceTelemetry>find(
+                "device.slug = :slug and eventTime = :eventTime",
+                Sort.by("eventTime", Direction.Descending),
+                params)
+                .list();
     }
 
 }

@@ -37,7 +37,7 @@ public class DeviceAPI {
                         return new DeviceInteraction(interaction.interactionType, interaction.interactionClass);
                     })
                     .toList();
-                    var roomSlug = device.room == null ? null : device.room.slug;
+                    var roomSlug = device.roomSlug;
                     return new DeviceInfo(
                             device.slug,
                             device.humanName,

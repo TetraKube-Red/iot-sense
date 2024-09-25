@@ -8,8 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import red.tetracube.models.enumerations.DeviceType;
@@ -27,9 +25,11 @@ public class Device extends PanacheEntity {
     @Column(name = "human_name", nullable = false)
     public String humanName;
 
-    @JoinColumn(name = "room_id", nullable = true)
-    @ManyToOne(targetEntity = Room.class, fetch = FetchType.LAZY, optional = true)
-    public Room room;
+    @Column(name = "hubSlug", nullable = true)
+    public String hubSlug;
+
+    @Column(name = "room_slug", nullable = true)
+    public String roomSlug;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "device_type", nullable = false)
@@ -39,7 +39,7 @@ public class Device extends PanacheEntity {
     public List<DeviceInteraction> deviceInteractions;
 
     public static Device getByInternalName(String internalName) {
-        return Device.<Device>find("internal_name", internalName)
+        return Device.<Device>find("internalName", internalName)
                 .firstResult();
     }
 

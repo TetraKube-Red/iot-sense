@@ -10,7 +10,7 @@ import red.tetracube.models.enumerations.DeviceType;
 public class DeviceServices {
 
     public List<Device> getDevicesByType(DeviceType deviceType) {
-        return Device.find("device_type", deviceType)
+        return Device.find("deviceType", deviceType)
                 .list();
     }
 

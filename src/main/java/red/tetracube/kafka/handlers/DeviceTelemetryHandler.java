@@ -6,9 +6,12 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.UUID;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.TransactionScoped;
+import jakarta.transaction.Transactional;
 import red.tetracube.database.entities.Device;
 import red.tetracube.kafka.dto.device.telemetry.DeviceTelemetry;
 import red.tetracube.kafka.dto.device.telemetry.TelemetryInstanceValue;
@@ -31,16 +34,18 @@ public class DeviceTelemetryHandler {
         LOG.info("Saved telemetry {}", savedTelemetry.telemetryName);
     }
 
-    private red.tetracube.database.entities.DeviceTelemetry mapTelemetryAsEntity(String deviceName,
+    @Transactional
+    red.tetracube.database.entities.DeviceTelemetry mapTelemetryAsEntity(String deviceName,
             DeviceTelemetry message)
             throws IOException {
         var device = Device.getByInternalName(deviceName);
         if (device == null) {
-            LOG.error("Cannot find any device named {} where register incoming telemetry", deviceName);
+            LOG.error("Cannot find any device named {} where register incoming telemetry", deviceName);     
             throw new IOException("No device found with name " + deviceName);
         }
 
         var deviceTelemetryEntity = new red.tetracube.database.entities.DeviceTelemetry();
+        deviceTelemetryEntity.id = UUID.randomUUID();
         deviceTelemetryEntity.eventTime = message.telemetryTimestamp();
         deviceTelemetryEntity.device = device;
         deviceTelemetryEntity.telemetryName = message.telemetryName();
